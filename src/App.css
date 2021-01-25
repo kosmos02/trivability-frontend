@@ -5,12 +5,57 @@ body {
 header {
     display: flex;
     justify-content: center;
+    justify-items: column;
+}
+
+#timer-section {
+    display: flex;
+    justify-content: center;
 }
 
 #trivia-display {
     height: 20rem;
     display: flex;
     justify-content: center;
+    justify-items: column ;
+    border: solid gray;
+    margin-right: 400px;
+    margin-left: 400px;
+    flex-grow: 1;
+}
+
+/* #question {
+    padding-left: 3rem;
+    
+} */
+
+#answers {
+    display: flex;
+    padding-top: 10rem;
+    justify-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+}
+
+.answer {
+    cursor: pointer;
+    border: dotted gray;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+
+#die-player {
+    display:flex;
+    align-items: row;
+    justify-content: space-between;
+}
+
+#die {
+    display: flex;
+    align-items: row;
+    width: 6rem;
+    justify-content: space-between;
 }
 
 #game-board {
