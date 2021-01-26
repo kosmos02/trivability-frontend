@@ -24,11 +24,6 @@ header {
     flex-grow: 1;
 }
 
-/* #question {
-    padding-left: 3rem;
-    
-} */
-
 #answers {
     display: flex;
     padding-top: 10rem;
@@ -43,6 +38,14 @@ header {
     border: dotted gray;
     padding-right: 2rem;
     padding-left: 2rem;
+}
+
+.green {
+    border: solid green
+}
+
+.red {
+    border: solid red;
 }
 
 #die-player {
