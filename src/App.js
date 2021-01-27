@@ -3,7 +3,7 @@ import './App.css';
 import Whitepawn from './assets/white_pawn.png'
 import Blackpawn from './assets/black_pawn.png'
 import Die from './assets/die.png'
-import Spotlight from './assets/yellow_2spotlight.mp4'
+import Spotlight from './assets/blue_2spotlight.mp4'
 
 class App extends Component {
   state={
@@ -133,7 +133,8 @@ class App extends Component {
         this.setState({
           pawn1: this.state.tiles[this.state.tiles.indexOf(this.state.pawn1) + this.state.dieValue]
         })
-        this.newQuestion(this.state.pawn1)
+        setTimeout(() => this.newQuestion(this.state.pawn1), 1000)
+        
       } else {
         this.setState({
           pawn1: this.state.tiles[this.state.tiles.length - 1]}
@@ -146,7 +147,7 @@ class App extends Component {
         this.setState({
           pawn2: this.state.tiles[this.state.tiles.indexOf(this.state.pawn2) + this.state.dieValue]
         })
-        this.newQuestion(this.state.pawn2)
+        setTimeout(() => this.newQuestion(this.state.pawn2), 1000)
       } 
       else {
         this.setState({
@@ -363,7 +364,7 @@ class App extends Component {
   playerWins = () => {
     if (this.state.hasWon !== ""){
       return(
-        <div>
+        <div id="player-wins">
           <p id="winning-player">{this.state.hasWon}</p>
           <input onClick={() => this.startOver()} type="submit" value="Play Again?"/>
         </div>

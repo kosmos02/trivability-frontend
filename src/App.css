@@ -1,8 +1,12 @@
 body {
     height: 100%;
     background-color: rgb(4, 4, 4);
+    /* overflow: hidden; */
 }
 
+.App {
+    height: 100%;
+}
 
 header {
     display: flex;
@@ -58,8 +62,8 @@ h1 {
     flex-grow: 1;
     background-color: rgb(181, 99, 197);
     box-shadow: 
-        rgb(236, 236, 152) 0px 30px 60px -12px,
-        rgb(236, 236, 152) 0px 18px 36px -18px;
+        lightblue 0px 30px 60px -12px,
+        lightblue 0px 18px 36px -18px;
 }
 
 #question-container {
@@ -117,7 +121,7 @@ h1 {
     padding-right: 2rem;
     padding-left: 2rem;
     background-color: lightblue;
-    border-radius: 4px;
+    border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: background-color .3s
     
@@ -129,14 +133,14 @@ h1 {
 
 .correct-answer {
     background-color: lightgreen;
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    
+    
 }
 
 .incorrect-answer {
     background-color: rgb(245, 97, 97);
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    
+    
 }
 
 #die-on {
@@ -148,15 +152,16 @@ h1 {
 
 .die {
     height: 4rem;
+    border-radius: 40px;
 }
 
 .die:active {
     box-shadow: 
-        rgba(0, 0, 0, 0.25) 0px 54px 55px,
-        rgba(0, 0, 0, 0.12) 0px -12px 30px, 
-        rgba(0, 0, 0, 0.12) 0px 4px 6px, 
-        rgba(0, 0, 0, 0.17) 0px 12px 13px, 
-        rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        rgb(236, 236, 152) 0px 54px 55px,
+        rgb(236, 236, 152) 0px -12px 30px, 
+        rgb(236, 236, 152) 0px 4px 6px, 
+        rgb(236, 236, 152) 0px 12px 13px, 
+        rgb(236, 236, 152) 0px -3px 5px;
 }
 
 .die:hover {
@@ -189,19 +194,25 @@ h1 {
     color: lightgreen;
 }
 
+#player-wins {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #winning-player {
     color: lightgreen;
     font-weight: bold;
     font-size: 40px;
 }
 
-.green {
+/* .green {
     border: solid green
 }
 
 .red {
     border: solid red;
-}
+} */
 
 #die-player {
     display:flex;
@@ -236,8 +247,10 @@ h1 {
 .tile {
     height: 5rem;
     width: 5rem;
+    border-radius: 10px;
     margin-bottom: 4rem;
-    border: solid black;
+    margin-left: 0.7rem;
+    /* border: solid black; */
     display: flex;
     justify-content: center;
     background-color: white;
