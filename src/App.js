@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import './App.css';
+import Whitepawn from './assets/white_pawn.png'
+import Blackpawn from './assets/black_pawn.png'
+import Die from './assets/die.png'
+import Spotlight from './assets/yellow_2spotlight.mp4'
 
 class App extends Component {
   state={
@@ -69,13 +73,13 @@ class App extends Component {
 
   displayPawn1 = (tile) => {
     if (tile.id === this.state.pawn1.id){
-      return <p>Pawn1</p>
+      return <img id="white-pawn" src={Whitepawn} alt="Player 1"/>
     } 
   }
 
   displayPawn2 = (tile) => {
     if (tile.id === this.state.pawn2.id){
-      return <p>Pawn2</p>
+      return <img id="black-pawn" src={Blackpawn} alt="Player 2"/>
     }
   }
 
@@ -228,23 +232,23 @@ class App extends Component {
 
   renderIsCorrect = () => {
     if (this.state.isCorrect === true){
-      return <p>Correct!</p>
+      return <p id="correct" className="isCorrect">Correct!</p>
     } 
     else if (this.state.isCorrect === false){
-      return <p>Incorrect!</p>
+      return <p id="incorrect" className="isCorrect">Incorrect!</p>
     }
   }
 
   showQuestion = () => {
     if (this.state.currentQuestion !== ""){
       return(
-        <div>
-          <div>
-            <p id="question">{this.state.currentQuestion.question}</p>
+        <div id='question-container'>
+          <p id="question">{this.state.currentQuestion.question}</p>
+          <div id="correct-container">
             {this.renderIsCorrect()}
-            <div id="answers">
-              {this.showAnswers()}
-            </div>
+          </div>
+          <div id="answers">
+            {this.showAnswers()}
           </div>
         </div>
       )
@@ -253,8 +257,20 @@ class App extends Component {
 
   showAnswers = () => {
     return this.state.answersRandom.map(answer => (
-      <div onClick={this.clickedAnswer} className="answer">{answer}</div>
+      <div onClick={this.clickedAnswer} className={["answer", this.addAnswerClassName(answer)].join(' ')}><p>{answer}</p></div>
     ))
+  }
+
+  addAnswerClassName= (clickedAnswer) => {
+    if (clickedAnswer === this.state.currentQuestion.correct_answer && this.state.timer === false){
+      return "correct-answer"
+    }
+    else if (clickedAnswer !== this.state.currentQuestion.correct_answer && this.state.timer === false){
+      return "incorrect-answer"
+    }
+    else {
+      return "unclicked-answer"
+    }
   }
 
   clickedAnswer = (event) => {
@@ -318,10 +334,14 @@ class App extends Component {
     if (this.state.counter === 30 || this.state.counter === 0){
       return(
         <h3 id="die-on" style={{cursor: 'pointer'}} onClick={this.dieClick}>
-        <p>Die</p>
+        <img className="die" src={Die} alt="Die"/>
           {
             this.state.clickDie ? 
-            <p>{this.state.dieValue}</p> :
+            <div id="die-info">
+              <p id="die-value">{this.state.dieValue}</p>
+              <p id="click-again-to-move">click again to move</p>
+            </div>
+            :
             null
           }
         </h3>
@@ -329,19 +349,23 @@ class App extends Component {
     }
     else {
       return (
-        <h3 id="die">
-          <p>Die</p>
+        <h3 id="die-off">
+          <img className="die" src={Die} alt="Die"/>
         </h3>
       )
     }
+  }
+
+  startOver(){
+    window.location.reload(true)
   }
 
   playerWins = () => {
     if (this.state.hasWon !== ""){
       return(
         <div>
-          <p>{this.state.hasWon}</p>
-          <input type="submit" value="Play Again?"/>
+          <p id="winning-player">{this.state.hasWon}</p>
+          <input onClick={() => this.startOver()} type="submit" value="Play Again?"/>
         </div>
       )
     }
@@ -356,24 +380,65 @@ class App extends Component {
     }
   }
 
+  displayVideo() {
+    return(
+      <video
+        id="video"
+        autoPlay
+        loop
+        muted
+        style={{
+          border: "none",
+          position: "absolute",
+          width: "100%",
+          left: "50%",
+          top: "50%",
+          height: "100%",
+          objectFit: "cover",
+          transform: "translate(-50%, -50%)",
+          zIndex: "-1"
+    }}
+    >
+      <source src={Spotlight} type="video/mp4" />
+    </video>
+    )
+  }
+
+  displayTriviaDisplay = () => {
+    if (this.state.currentQuestion !== ""){
+      return <div id="trivia-display">{this.showQuestion()}</div>
+    }
+  }
+
+  whosTurn = () => {
+    if (this.state.playerTurn === true){
+      return "player1-turn"
+    }
+    else {
+      return "player2-turn"
+    }
+  }
+
   render(){
     return (
       <div className="App">
+        {this.displayVideo()}
         <header>
           <h1>Trivia Pursuit</h1>
         </header>
         <div id="timer-section">
-          <p>
+          <p id="timer">
             {this.displayTimer()}
           </p> 
         </div>
-        <div id="trivia-display">
-          {this.showQuestion()}
+        <div id="trivia-container">
+          {this.displayTriviaDisplay()}
         </div>
+        
         <div id="die-player" >
           {this.displayDie()}
           {this.playerWins()}
-          <p>
+          <p id={this.whosTurn()}>
             {this.displayPlayerTurn()}
           </p>
         </div>

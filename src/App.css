@@ -1,6 +1,8 @@
 body {
-    height: 100vh;
+    height: 100%;
+    background-color: rgb(4, 4, 4);
 }
+
 
 header {
     display: flex;
@@ -8,25 +10,95 @@ header {
     justify-items: column;
 }
 
+h1 {
+    color: yellow;
+    opacity: 0;
+    animation: fade 7s ease
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 #timer-section {
     display: flex;
     justify-content: center;
 }
 
-#trivia-display {
-    height: 20rem;
+#timer {
+    color: yellow;
+}
+
+#trivia-container {
+    height: 23rem;
     display: flex;
+    flex-grow: 1;
+}
+
+#trivia-display {
+    height: 23rem;
+    display: flex;
+    flex-grow: 1;
     justify-content: center;
     justify-items: column ;
-    border: solid gray;
+    
+    border-radius: 30px;
     margin-right: 400px;
     margin-left: 400px;
     flex-grow: 1;
+    background-color: rgb(181, 99, 197);
+    box-shadow: 
+        rgb(236, 236, 152) 0px 30px 60px -12px,
+        rgb(236, 236, 152) 0px 18px 36px -18px;
+}
+
+#question-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#question {
+    color: white;
+    font-weight: bold;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    padding-left: 3rem;
+}
+
+#correct-container {
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.isCorrect {
+    font-weight: bold;
+}
+
+#correct {
+    color: lightgreen;
+}
+
+#incorrect {
+    color: rgb(247, 178, 178)
 }
 
 #answers {
     display: flex;
-    padding-top: 10rem;
+    
     justify-content: center;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -34,10 +106,93 @@ header {
 }
 
 .answer {
+    display: flex;
+    justify-content: center;
     cursor: pointer;
-    border: dotted gray;
+    width: 1rem;
+    flex-grow: 1;
+    margin-top: 3rem;
+    margin-left: 6rem;
+    margin-right: 6rem;
     padding-right: 2rem;
     padding-left: 2rem;
+    background-color: lightblue;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: background-color .3s
+    
+}
+
+.answer:hover {
+    background-color: yellow;
+}
+
+.correct-answer {
+    background-color: lightgreen;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.incorrect-answer {
+    background-color: rgb(245, 97, 97);
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#die-on {
+    width: 20rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.die {
+    height: 4rem;
+}
+
+.die:active {
+    box-shadow: 
+        rgba(0, 0, 0, 0.25) 0px 54px 55px,
+        rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+        rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+        rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+        rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.die:hover {
+    animation: pop 3s ease;
+}
+
+
+@keyframes pop {
+        0%   { transform: scale(1,1)      translateY(0); }
+        10%  { transform: scale(1.1,.9)   translateY(0); }
+        30%  { transform: scale(.9,1.1)   translateY(-50px); }
+        50%  { transform: scale(1.05,.95) translateY(0); }
+        57%  { transform: scale(1,1)      translateY(-7px); }
+        64%  { transform: scale(1,1)      translateY(0); }
+        100% { transform: scale(1,1)      translateY(0); }
+}
+
+#die-info {
+    width: 15rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#die-value {
+    color: red;
+}
+
+#click-again-to-move {
+    color: lightgreen;
+}
+
+#winning-player {
+    color: lightgreen;
+    font-weight: bold;
+    font-size: 40px;
 }
 
 .green {
@@ -54,18 +209,28 @@ header {
     justify-content: space-between;
 }
 
-#die {
+/* #die {
     display: flex;
     align-items: row;
     width: 6rem;
     justify-content: space-between;
+    animation: pop 1s ease
+} */
+
+#player1-turn {
+    color: rgb(248, 155, 155);
+    font-size: 40px;
+}
+
+#player2-turn {
+    color: rgb(167, 167, 245);
+    font-size: 40px;
 }
 
 #game-board {
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-
 }
 
 .tile {
@@ -73,7 +238,9 @@ header {
     width: 5rem;
     margin-bottom: 4rem;
     border: solid black;
-    
+    display: flex;
+    justify-content: center;
+    background-color: white;
 }
 
 .red {
@@ -90,4 +257,29 @@ header {
 
 .green {
     background-color: green;
+}
+
+#white-pawn {
+    height: 2rem;
+    margin-top: 1.2rem;
+    animation: slidein 3s ease;
+    transition: tranform 10s
+}
+
+#black-pawn {
+    height: 2rem;
+    margin-top: 1.2rem;
+    animation: slidein 3s ease;
+    transition: all 5s
+}
+
+@keyframes slidein {
+    from {
+        transform: translate(-100px)
+    }
+
+    
+    to {
+        transform: translate(0px)
+    }
 }
