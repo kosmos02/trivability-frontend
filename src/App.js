@@ -4,8 +4,16 @@ import Whitepawn from './assets/white_pawn.png'
 import Blackpawn from './assets/black_pawn.png'
 import Die from './assets/die.png'
 import Spotlight from './assets/blue_2spotlight.mp4'
+import OminousDrums from './audioclips/ominous-drums.wav'
+import HappyTimer from './audioclips/game-show-happy-timer.wav'
+import Positive from './audioclips/correct-positive-answer.wav'
+import Negative from './audioclips/wrong-answer-bass-buzzer.wav'
+import Clapping from './audioclips/clapping-crowd.wav'
+import DieRoll from './audioclips/dice-roll.wav'
+import {Howl, Howler} from 'howler'
 
 class App extends Component {
+
   state={
     tiles: [],
 
@@ -62,6 +70,30 @@ class App extends Component {
           ))
   }
 
+  SoundPlay = (src) => {
+    const sound = new Howl({
+      src
+    })
+    sound.play()
+  }
+
+  sound = null
+
+  SoundTimer = (src) => {
+    if (this.sound != null){
+      this.sound.stop()
+      this.sound.unload()
+      this.sound = null
+    }
+    else if (this.state.timer === true){
+      this.sound = new Howl({
+        src
+      })
+      this.sound.play()
+    }
+  }
+
+
   showTiles = () => {
     return this.state.tiles.map(tile => (
       <div key={tile.id}className={[tile.color, "tile"].join(' ')}>
@@ -85,10 +117,11 @@ class App extends Component {
 
   dieClick = () => {
     if (this.state.pawn1Pass === true && this.state.playerTurn === true){
+      this.SoundPlay(DieRoll)
       if (this.state.clickDie === true){
         this.setState({
           clickDie: !this.state.clickDie, 
-          dieValue: Math.floor(Math.random() * (6-1+1) +1)
+          dieValue: Math.floor(Math.random() * (6-1+1) + 1)
         })
         this.pawnMove()
       } 
@@ -106,6 +139,7 @@ class App extends Component {
     }
     
     else if (this.state.pawn2Pass === true && this.state.playerTurn === false){
+      this.SoundPlay(DieRoll)
       if (this.state.clickDie === true){
         this.setState({
           clickDie: !this.state.clickDie, 
@@ -194,10 +228,18 @@ class App extends Component {
           null
         )
     }
+
+    //play audio ominous drums
+    this.SoundPlay(OminousDrums)
+
     // to update currentQuestion props before exectution
     setTimeout(() => this.setState({answersRandom: this.randomizeAnswers()}), 1000)
     this.setClock()
+
+    setTimeout(() => this.SoundTimer(HappyTimer), 1000)
   }
+
+    
 
   setClock = () => {
     setTimeout(() => {
@@ -276,22 +318,28 @@ class App extends Component {
 
   clickedAnswer = (event) => {
     if (event.target.textContent === this.state.currentQuestion.correct_answer){
+      this.SoundPlay(Positive)
       if (this.state.playerTurn === true){
         if (this.state.pawn1 === this.state.tiles[this.state.tiles.length - 1]){
+        
+          this.SoundPlay(Clapping)
           return this.setState({
             hasWon: "Player 1 WINS", 
             counter: 0
           })
         }
+        
         this.setState({
           pawn1Pass: true,
           timer: false,
           counter: 0,
           isCorrect: true
         })
+        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
       } 
       else {
         if (this.state.pawn2 === this.state.tiles[this.state.tiles.length - 1]){
+          this.SoundPlay(Clapping)
           return this.setState({
             hasWon: "Player 2 WINS",
             counter: 0
@@ -303,9 +351,11 @@ class App extends Component {
           counter: 0, 
           isCorrect: true
         })
+        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
       }
     } 
     else {
+      this.SoundPlay(Negative)
       if (this.state.playerTurn === true){
         this.setState({
           pawn1Pass: false,
@@ -313,6 +363,7 @@ class App extends Component {
           counter: 0,
           isCorrect: false
         })
+        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
       } 
       else {
         this.setState({
@@ -321,8 +372,10 @@ class App extends Component {
           counter: 0,
           isCorrect: false
         })
+        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
       }
     }
+    
   }
 
   displayTimer = () => {
@@ -421,7 +474,9 @@ class App extends Component {
   }
 
   render(){
+    Howler.volume(1.0)
     return (
+      
       <div className="App">
         {this.displayVideo()}
         <header>
