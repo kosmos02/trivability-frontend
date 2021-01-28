@@ -1,11 +1,14 @@
 body {
-    height: 100%;
+    height: 100vh;
     background-color: rgb(4, 4, 4);
     /* overflow: hidden; */
 }
 
 .App {
-    height: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction : column;
+    justify-content: space-between;
 }
 
 header {
@@ -44,7 +47,7 @@ h1 {
 }
 
 #trivia-container {
-    height: 23rem;
+    height: 100%;
     display: flex;
     flex-grow: 1;
 }
@@ -54,12 +57,12 @@ h1 {
     display: flex;
     flex-grow: 1;
     justify-content: center;
-    justify-items: column ;
+
     
     border-radius: 30px;
     margin-right: 400px;
     margin-left: 400px;
-    flex-grow: 1;
+
     background-color: rgb(181, 99, 197);
     box-shadow: 
         lightblue 0px 30px 60px -12px,
@@ -68,10 +71,11 @@ h1 {
 
 #question-container {
     display: flex;
-    justify-content: center;
+    align-items: center;
     flex-direction: column;
     padding-left: 2rem;
     padding-right: 2rem;
+    padding-bottom: 1rem;
 }
 
 #question {
@@ -79,7 +83,7 @@ h1 {
     font-weight: bold;
     margin-left: 3rem;
     margin-right: 3rem;
-    padding-left: 3rem;
+    
 }
 
 #correct-container {
@@ -102,11 +106,8 @@ h1 {
 
 #answers {
     display: flex;
-    
-    justify-content: center;
     justify-content: space-around;
     flex-wrap: wrap;
-    
 }
 
 .answer {
@@ -125,6 +126,11 @@ h1 {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: background-color .3s
     
+}
+
+.answer p {
+    margin-left: 10px;
+    margin-right: 10px
 }
 
 .answer:hover {
@@ -254,6 +260,10 @@ h1 {
     display: flex;
     justify-content: center;
     background-color: white;
+    box-shadow: 
+        rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
+        rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .red {

@@ -3,14 +3,22 @@ import './App.css';
 import Whitepawn from './assets/white_pawn.png'
 import Blackpawn from './assets/black_pawn.png'
 import Die from './assets/die.png'
+
 import Spotlight from './assets/blue_2spotlight.mp4'
+
+import {Howl, Howler} from 'howler'
 import OminousDrums from './audioclips/ominous-drums.wav'
-import HappyTimer from './audioclips/game-show-happy-timer.wav'
+import HappyTimer from './audioclips/timer.mp3'
 import Positive from './audioclips/correct-positive-answer.wav'
 import Negative from './audioclips/wrong-answer-bass-buzzer.wav'
 import Clapping from './audioclips/clapping-crowd.wav'
 import DieRoll from './audioclips/dice-roll.wav'
-import {Howl, Howler} from 'howler'
+import PlayerWin from './audioclips/player-win.mp3'
+import TimesUp from './audioclips/times-up.mp3'
+
+
+import Confetti from 'react-dom-confetti'
+
 
 class App extends Component {
 
@@ -39,6 +47,18 @@ class App extends Component {
     isCorrect: null,
 
     hasWon: "",
+  }
+
+  componentDidUpdate(PrevProps, prevState){
+    if (this.state.timer !== prevState.timer){
+      this.SoundTimer(HappyTimer)
+    }
+    if (this.state.hasWon !== prevState.hasWon){
+      this.SoundPlay(PlayerWin)
+    }
+    if (this.state.timer === true && this.state.counter === 0){
+      this.SoundPlay(TimesUp)
+    }
   }
 
   componentDidMount(){
@@ -236,25 +256,24 @@ class App extends Component {
     setTimeout(() => this.setState({answersRandom: this.randomizeAnswers()}), 1000)
     this.setClock()
 
-    setTimeout(() => this.SoundTimer(HappyTimer), 1000)
-  }
-
     
+  }
 
   setClock = () => {
     setTimeout(() => {
       if (this.state.timer === true){
         const startClock = setInterval(() => {
-          if (this.state.counter <= 60 && this.state.counter > 0){
+          if (this.state.counter <= 30 && this.state.counter > 0){
             this.setState({counter: this.state.counter - 1})
-          } 
+          }
           else {
+            
             this.setState({
               timer: false,
               playerTurn: !this.state.playerTurn
             })
             clearInterval(startClock)
-          }
+          } 
         }, 1000)
       }
     } ,1000)
@@ -324,8 +343,10 @@ class App extends Component {
         
           this.SoundPlay(Clapping)
           return this.setState({
-            hasWon: "Player 1 WINS", 
-            counter: 0
+            hasWon: "Player 1 WINS",
+            timer: false,
+            counter: 0 
+            
           })
         }
         
@@ -333,25 +354,28 @@ class App extends Component {
           pawn1Pass: true,
           timer: false,
           counter: 0,
+          
           isCorrect: true
         })
-        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
+        
       } 
       else {
         if (this.state.pawn2 === this.state.tiles[this.state.tiles.length - 1]){
           this.SoundPlay(Clapping)
           return this.setState({
             hasWon: "Player 2 WINS",
+            timer: false,
             counter: 0
           })
         }
         this.setState({
           pawn2Pass: true,
-          timer: false, 
+          timer: false,
           counter: 0, 
+          
           isCorrect: true
         })
-        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
+        
       }
     } 
     else {
@@ -361,18 +385,20 @@ class App extends Component {
           pawn1Pass: false,
           timer: false,
           counter: 0,
+          
           isCorrect: false
         })
-        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
+        
       } 
       else {
         this.setState({
           pawn2Pass: false,
           timer: false,
           counter: 0,
+          
           isCorrect: false
         })
-        setTimeout(() => this.SoundTimer(HappyTimer), 1000)
+        
       }
     }
     
@@ -385,7 +411,7 @@ class App extends Component {
   }
 
   displayDie = () => {
-    if (this.state.counter === 30 || this.state.counter === 0){
+    if (this.state.timer === false){
       return(
         <h3 id="die-on" style={{cursor: 'pointer'}} onClick={this.dieClick}>
         <img className="die" src={Die} alt="Die"/>
@@ -416,6 +442,7 @@ class App extends Component {
 
   playerWins = () => {
     if (this.state.hasWon !== ""){
+      
       return(
         <div id="player-wins">
           <p id="winning-player">{this.state.hasWon}</p>
@@ -473,8 +500,23 @@ class App extends Component {
     }
   }
 
+  config = {
+    angle: "360",
+    spread: 360,
+    startVelocity: 40,
+    elementCount: "200",
+    dragFriction: "0.09",
+    duration: "10000",
+    stagger: "10",
+    width: "20px",
+    height: "10px",
+    perspective: "502px",
+    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+};
+  
+
   render(){
-    Howler.volume(1.0)
+    Howler.volume(0.3)
     return (
       
       <div className="App">
@@ -493,7 +535,9 @@ class App extends Component {
         
         <div id="die-player" >
           {this.displayDie()}
+          
           {this.playerWins()}
+          <Confetti active={this.state.hasWon} config={this.config}/>
           <p id={this.whosTurn()}>
             {this.displayPlayerTurn()}
           </p>
