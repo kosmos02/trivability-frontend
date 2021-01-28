@@ -42,7 +42,7 @@ class App extends Component {
     dieValue: null,
 
     timer: false,
-    counter: 30,
+    counter: 25,
 
     isCorrect: null,
 
@@ -219,28 +219,28 @@ class App extends Component {
         this.setState({
           currentQuestion: this.randomQuestion(this.state.redQuestions.results), 
           timer: !this.state.timer, 
-          counter: 30
+          counter: 25
         })
         break
       case "green":
           this.setState({
             currentQuestion: this.randomQuestion(this.state.greenQuestions.results),
             timer: !this.state.timer, 
-            counter: 30
+            counter: 25
           })
           break
       case "yellow":
           this.setState({
             currentQuestion: this.randomQuestion(this.state.yellowQuestions.results),
             timer: !this.state.timer, 
-            counter: 30
+            counter: 25
           })
           break
       case "blue":
           this.setState({
             currentQuestion: this.randomQuestion(this.state.blueQuestions.results), 
             timer: !this.state.timer, 
-            counter: 30
+            counter: 25
           })
           break
       default:
@@ -263,7 +263,7 @@ class App extends Component {
     setTimeout(() => {
       if (this.state.timer === true){
         const startClock = setInterval(() => {
-          if (this.state.counter <= 30 && this.state.counter > 0){
+          if (this.state.counter <= 25 && this.state.counter > 0){
             this.setState({counter: this.state.counter - 1})
           }
           else {
