@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import './App.css';
-import Whitepawn from './assets/white_pawn.png'
-import Blackpawn from './assets/black_pawn.png'
-import Die from './assets/die.png'
+
+import Header from './container/Header'
+import Timer from './container/Timer'
+import TriviaContainer from './container/TriviaContainer'
+import DiePlayer from './container/DiePlayer'
+import GameBoard from './container/GameBoard'
 
 import Spotlight from './assets/blue_2spotlight.mp4'
 
@@ -15,10 +18,6 @@ import Clapping from './audioclips/clapping-crowd.wav'
 import DieRoll from './audioclips/dice-roll.wav'
 import PlayerWin from './audioclips/player-win.mp3'
 import TimesUp from './audioclips/times-up.mp3'
-
-
-import Confetti from 'react-dom-confetti'
-
 
 class App extends Component {
 
@@ -113,28 +112,6 @@ class App extends Component {
     }
   }
 
-
-  showTiles = () => {
-    return this.state.tiles.map(tile => (
-      <div key={tile.id}className={[tile.color, "tile"].join(' ')}>
-        {this.displayPawn1(tile)}
-        {this.displayPawn2(tile)}
-      </div>
-    ))
-  }
-
-  displayPawn1 = (tile) => {
-    if (tile.id === this.state.pawn1.id){
-      return <img id="white-pawn" src={Whitepawn} alt="Player 1"/>
-    } 
-  }
-
-  displayPawn2 = (tile) => {
-    if (tile.id === this.state.pawn2.id){
-      return <img id="black-pawn" src={Blackpawn} alt="Player 2"/>
-    }
-  }
-
   dieClick = () => {
     if (this.state.pawn1Pass === true && this.state.playerTurn === true){
       this.SoundPlay(DieRoll)
@@ -187,16 +164,16 @@ class App extends Component {
         this.setState({
           pawn1: this.state.tiles[this.state.tiles.indexOf(this.state.pawn1) + this.state.dieValue]
         })
-        setTimeout(() => this.newQuestion(this.state.pawn1), 1000)
-        
-      } else {
+        setTimeout(() => this.newQuestion(this.state.pawn1), 1000) 
+      } 
+      else {
         this.setState({
           pawn1: this.state.tiles[this.state.tiles.length - 1]}
         )
         this.newQuestion(this.state.pawn1)
       }
-
-    } else {
+    } 
+    else {
       if (typeof this.state.tiles[this.state.tiles.indexOf(this.state.pawn2) + this.state.dieValue] !== 'undefined'){
         this.setState({
           pawn2: this.state.tiles[this.state.tiles.indexOf(this.state.pawn2) + this.state.dieValue]
@@ -254,9 +231,7 @@ class App extends Component {
 
     // to update currentQuestion props before exectution
     setTimeout(() => this.setState({answersRandom: this.randomizeAnswers()}), 1000)
-    this.setClock()
-
-    
+    this.setClock() 
   }
 
   setClock = () => {
@@ -267,7 +242,6 @@ class App extends Component {
             this.setState({counter: this.state.counter - 1})
           }
           else {
-            
             this.setState({
               timer: false,
               playerTurn: !this.state.playerTurn
@@ -292,55 +266,11 @@ class App extends Component {
     return answers.sort(() => Math.random() -0.5)
   }
 
-  renderIsCorrect = () => {
-    if (this.state.isCorrect === true){
-      return <p id="correct" className="isCorrect">Correct!</p>
-    } 
-    else if (this.state.isCorrect === false){
-      return <p id="incorrect" className="isCorrect">Incorrect!</p>
-    }
-  }
-
-  showQuestion = () => {
-    if (this.state.currentQuestion !== ""){
-      return(
-        <div id='question-container'>
-          <p id="question">{this.state.currentQuestion.question}</p>
-          <div id="correct-container">
-            {this.renderIsCorrect()}
-          </div>
-          <div id="answers">
-            {this.showAnswers()}
-          </div>
-        </div>
-      )
-    }
-  }
-
-  showAnswers = () => {
-    return this.state.answersRandom.map(answer => (
-      <div onClick={this.clickedAnswer} className={["answer", this.addAnswerClassName(answer)].join(' ')}><p>{answer}</p></div>
-    ))
-  }
-
-  addAnswerClassName= (clickedAnswer) => {
-    if (clickedAnswer === this.state.currentQuestion.correct_answer && this.state.timer === false){
-      return "correct-answer"
-    }
-    else if (clickedAnswer !== this.state.currentQuestion.correct_answer && this.state.timer === false){
-      return "incorrect-answer"
-    }
-    else {
-      return "unclicked-answer"
-    }
-  }
-
   clickedAnswer = (event) => {
     if (event.target.textContent === this.state.currentQuestion.correct_answer){
       this.SoundPlay(Positive)
       if (this.state.playerTurn === true){
         if (this.state.pawn1 === this.state.tiles[this.state.tiles.length - 1]){
-        
           this.SoundPlay(Clapping)
           return this.setState({
             hasWon: "Player 1 WINS",
@@ -349,15 +279,12 @@ class App extends Component {
             
           })
         }
-        
         this.setState({
           pawn1Pass: true,
           timer: false,
           counter: 0,
-          
           isCorrect: true
-        })
-        
+        })  
       } 
       else {
         if (this.state.pawn2 === this.state.tiles[this.state.tiles.length - 1]){
@@ -372,7 +299,6 @@ class App extends Component {
           pawn2Pass: true,
           timer: false,
           counter: 0, 
-          
           isCorrect: true
         })
         
@@ -385,7 +311,6 @@ class App extends Component {
           pawn1Pass: false,
           timer: false,
           counter: 0,
-          
           isCorrect: false
         })
         
@@ -398,67 +323,8 @@ class App extends Component {
           
           isCorrect: false
         })
-        
       }
-    }
-    
-  }
-
-  displayTimer = () => {
-    if (this.state.timer === true){
-      return this.state.counter
-    }
-  }
-
-  displayDie = () => {
-    if (this.state.timer === false){
-      return(
-        <h3 id="die-on" style={{cursor: 'pointer'}} onClick={this.dieClick}>
-        <img className="die" src={Die} alt="Die"/>
-          {
-            this.state.clickDie ? 
-            <div id="die-info">
-              <p id="die-value">{this.state.dieValue}</p>
-              <p id="click-again-to-move">click again to move</p>
-            </div>
-            :
-            null
-          }
-        </h3>
-      ) 
-    }
-    else {
-      return (
-        <h3 id="die-off">
-          <img className="die" src={Die} alt="Die"/>
-        </h3>
-      )
-    }
-  }
-
-  startOver(){
-    window.location.reload(true)
-  }
-
-  playerWins = () => {
-    if (this.state.hasWon !== ""){
-      
-      return(
-        <div id="player-wins">
-          <p id="winning-player">{this.state.hasWon}</p>
-          <input onClick={() => this.startOver()} type="submit" value="Play Again?"/>
-        </div>
-      )
-    }
-  }
-
-  displayPlayerTurn = () => {
-    if (this.state.playerTurn === true){
-      return "Player 1 Turn"
-    }
-    else {
-      return "Player 2 Turn"
-    }
+    } 
   }
 
   displayVideo() {
@@ -485,66 +351,38 @@ class App extends Component {
     )
   }
 
-  displayTriviaDisplay = () => {
-    if (this.state.currentQuestion !== ""){
-      return <div id="trivia-display">{this.showQuestion()}</div>
-    }
-  }
-
-  whosTurn = () => {
-    if (this.state.playerTurn === true){
-      return "player1-turn"
-    }
-    else {
-      return "player2-turn"
-    }
-  }
-
-  config = {
-    angle: "360",
-    spread: 360,
-    startVelocity: 40,
-    elementCount: "200",
-    dragFriction: "0.09",
-    duration: "10000",
-    stagger: "10",
-    width: "20px",
-    height: "10px",
-    perspective: "502px",
-    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
-};
-  
-
   render(){
     Howler.volume(0.3)
     return (
       
       <div className="App">
         {this.displayVideo()}
-        <header>
-          <h1>Trivia Pursuit</h1>
-        </header>
-        <div id="timer-section">
-          <p id="timer">
-            {this.displayTimer()}
-          </p> 
-        </div>
-        <div id="trivia-container">
-          {this.displayTriviaDisplay()}
-        </div>
-        
-        <div id="die-player" >
-          {this.displayDie()}
-          
-          {this.playerWins()}
-          <Confetti active={this.state.hasWon} config={this.config}/>
-          <p id={this.whosTurn()}>
-            {this.displayPlayerTurn()}
-          </p>
-        </div>
-        <div id="game-board" >
-          {this.showTiles()}
-        </div>
+        <Header />
+        <Timer 
+          timer={this.state.timer} 
+          counter={this.state.counter} 
+        />
+        <TriviaContainer 
+          currentQuestion={this.state.currentQuestion} 
+          isCorrect={this.state.isCorrect}
+          clickedAnswer={this.clickedAnswer}
+          timer={this.state.timer}
+          answersRandom={this.state.answersRandom} 
+        />
+        <DiePlayer
+          timer={this.state.timer}
+          clickDie={this.state.clickDie}
+          dieValue={this.state.dieValue}
+          dieClick={this.dieClick}
+          playerWins={this.playerWins}
+          hasWon={this.state.hasWon}
+          playerTurn={this.state.playerTurn}
+        />
+        <GameBoard 
+          tiles={this.state.tiles}
+          pawn1={this.state.pawn1}
+          pawn2={this.state.pawn2}
+        />
       </div>
     )
   }
