@@ -7,7 +7,6 @@ body {
 }
 
 .App {
-    position: absolute;
     height: 100vh;
     display: flex;
     flex-direction : column;
