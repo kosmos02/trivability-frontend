@@ -1,70 +1,121 @@
-# Getting Started with Create React App
+# TrivAbility #
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![TrivAbility](https://i.ibb.co/wCNSRXF/Screen-Shot-2021-01-29-at-9-55-23-AM.png "TrivAbility")
 
-## Available Scripts
+This is a Trivia Game similar to Trivia Pursuit I created with a Ruby on Rails backe-end and a React frontend.
 
-In the project directory, you can run:
+https://github.com/kosmos02/trivability-backend
 
-### `yarn start`
+## Technologies Used ##
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* Ruby on Rails back-end
+* React frontend
+* HTML, Javascript, CSS
+* Howler.js
+* React-Dom-Confetti.js
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Startup ##
 
-### `yarn test`
+* Fork and clone GitHub repos, front and backend
+* Open terminal of choice and and use 'git clone (repo)', then open it in your code editor of choice
+* On the backend, run bundle update to update/install gems
+* Run 'rails db:seed' and 'rails db:migrate' then run 'rails s' on the backend
+* Use 'npm install' command and then 'npm start' on the front-end
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to Play ##
 
-### `yarn build`
+* The game starts off with Player 1's turn. Player 1 click on the die to roll it. A number is displayed. Click the die again to move your game piece that many spaces on the game board.
+* A trivia question with answers will display. Pick the answer you think is correct. Afterwards, it is now the next player's turn to go. Note, if the answer you picked is incorrect, on your next turn you will not be able to move any spaces.
+* If you answer the final question correctly, the player wins the game and is you are able to play the game again from the beginning if you want.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Code Examples ##
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+I used componentDidUpdate to play certain sounds that needed to be played when something specific changed in state
+```
+componentDidUpdate(PrevProps, prevState) {
+    if (this.state.timer !== prevState.timer) {
+      this.SoundTimer(HappyTimer)
+    }
+    if (this.state.hasWon !== prevState.hasWon) {
+      this.SoundPlay(PlayerWin)
+    }
+    if (this.state.timer === true && this.state.counter === 0) {
+      this.SoundPlay(TimesUp)
+    }
+  }
+```
+I used Howler.js to play sounds upon a click event or when something changed in componentDidMount
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+  SoundPlay = (src) => {
+    const sound = new Howl({
+      src
+    })
+    sound.play()
+  }
 
-### `yarn eject`
+  sound = null
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  SoundTimer = (src) => {
+    if (this.sound != null) {
+      this.sound.stop()
+      this.sound.unload()
+      this.sound = null
+    }
+    else if (this.state.timer === true) {
+      this.sound = new Howl({
+        src
+      })
+      this.sound.play()
+    }
+  }
+```
+  I used this code to figure out if the game piece is on the final game board tile
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+  pawnMove = () => {
+    if (this.state.playerTurn === true) {
+      if (typeof this.state.tiles[this.state.tiles.indexOf(this.state.pawn1) + this.state.dieValue] !== 'undefined') {
+        this.setState({
+          pawn1: this.state.tiles[this.state.tiles.indexOf(this.state.pawn1) + this.state.dieValue]
+        })
+        setTimeout(() => this.newQuestion(this.state.pawn1), 1000)
+      }
+      else {
+        this.setState({
+          pawn1: this.state.tiles[this.state.tiles.length - 1]
+        }
+        )
+        this.newQuestion(this.state.pawn1)
+      }
+    }
+```
+This code I used in a function to display the clock and count it down by seconds
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+    setClock = () => {
+    setTimeout(() => {
+      if (this.state.timer === true) {
+        const startClock = setInterval(() => {
+          if (this.state.counter <= 25 && this.state.counter > 0) {
+            this.setState({ counter: this.state.counter - 1 })
+          }
+          else {
+            this.setState({
+              timer: false,
+              playerTurn: !this.state.playerTurn
+            })
+            clearInterval(startClock)
+          }
+        }, 1000)
+      }
+    }, 1000)
+  }
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Demo ##
 
-## Learn More
+## Contributors ##
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Alexander Gabriel - on GitHub: @kosmos02
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
