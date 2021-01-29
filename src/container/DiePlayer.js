@@ -47,19 +47,18 @@ function DiePlayer({timer, clickDie, dieValue, hasWon, playerTurn, dieClick}){
 
     const whosTurn = () => {
         if (playerTurn === true){
-            return "player1-turn"
+            return(
+                <div className="turn-container">
+                    <p id="player1-turn">Player 1 Turn</p>
+                </div>
+            ) 
         }
         else {
-            return "player2-turn"
-        }
-    }
-
-    const displayPlayerTurn = () => {
-        if (playerTurn === true){
-            return "Player 1 Turn"
-        }
-        else {
-            return "Player 2 Turn"
+            return(
+                <div className="turn-container">
+                    <p id="player2-turn">Player 2 Turn</p>
+                </div>
+            )
         }
     }
 
@@ -83,9 +82,7 @@ function DiePlayer({timer, clickDie, dieValue, hasWon, playerTurn, dieClick}){
             {displayDie()}
             {playerWins()}
             <Confetti active={hasWon} config={config}/>
-            <p id={whosTurn()}>
-                {displayPlayerTurn()}
-            </p>
+            {whosTurn()}
         </div>
     )
 }

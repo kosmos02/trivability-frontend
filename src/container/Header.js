@@ -2,7 +2,7 @@
 function Header(){
     return(
         <header>
-            <h1>Trivia Pursuit</h1>
+            <h1>TrivAbility</h1>
         </header>
     )
 }

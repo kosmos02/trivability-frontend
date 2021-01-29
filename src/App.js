@@ -72,10 +72,10 @@ class App extends Component {
       .then(computerTrivias => (
         this.setState({redQuestions: computerTrivias})
       ))
-    fetch('https://opentdb.com/api.php?amount=50&category=15&difficulty=easy')
+    fetch('https://opentdb.com/api.php?amount=50&category=17')
         .then(response => response.json())
-        .then(videoGamesTrivias => (
-          this.setState({yellowQuestions: videoGamesTrivias})
+        .then(scienceNatureTrivias => (
+          this.setState({yellowQuestions: scienceNatureTrivias})
         ))
     fetch('https://opentdb.com/api.php?amount=50&category=20')
           .then(response => response.json())
@@ -118,20 +118,23 @@ class App extends Component {
       if (this.state.clickDie === true){
         this.setState({
           clickDie: !this.state.clickDie, 
-          dieValue: Math.floor(Math.random() * (6-1+1) + 1)
+          dieValue: Math.floor(Math.random() * (6-1+1) + 1),
+          currentQuestion: ""
         })
         this.pawnMove()
       } 
       else {
         this.setState({
           clickDie: !this.state.clickDie, 
-          dieValue: Math.floor(Math.random() * (6-1+1) + 1)
+          dieValue: Math.floor(Math.random() * (6-1+1) + 1),
+          
         })
       }
     }
 
     else if (this.state.pawn1Pass === false && this.state.playerTurn === true) {
-      this.newQuestion(this.state.pawn1)
+      this.setState({currentQuestion: ""})
+      setTimeout(() => this.newQuestion(this.state.pawn1, 1000))
 
     }
     
@@ -140,21 +143,22 @@ class App extends Component {
       if (this.state.clickDie === true){
         this.setState({
           clickDie: !this.state.clickDie, 
-          dieValue: Math.floor(Math.random() * (6-1+1) +1)
+          dieValue: Math.floor(Math.random() * (6-1+1) +1),
+          currentQuestion: ""
         })
         this.pawnMove()
       } 
       else {
         this.setState({
           clickDie: !this.state.clickDie, 
-          dieValue: Math.floor(Math.random() * (6-1+1) + 1)
+          dieValue: Math.floor(Math.random() * (6-1+1) + 1),
         })
       }
-
     }
     
     else if (this.state.pawn2Pass === false && this.state.playerTurn === false){
-      this.newQuestion(this.state.pawn2)
+      this.setState({currentQuestion: ""})
+      setTimeout(() => this.newQuestion(this.state.pawn2), 1000)
     }
   } 
 
@@ -352,7 +356,7 @@ class App extends Component {
   }
 
   render(){
-    Howler.volume(0.3)
+    Howler.volume(0.1)
     return (
       
       <div className="App">
