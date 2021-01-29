@@ -117,8 +117,7 @@ class App extends Component {
       if (this.state.clickDie === true) {
         this.setState({
           clickDie: !this.state.clickDie,
-          dieValue: Math.floor(Math.random() * (6 - 1 + 1) + 1),
-          currentQuestion: ""
+          dieValue: Math.floor(Math.random() * (6 - 1 + 1) + 1),        
         })
         this.pawnMove()
       }
@@ -141,7 +140,6 @@ class App extends Component {
         this.setState({
           clickDie: !this.state.clickDie,
           dieValue: Math.floor(Math.random() * (6 - 1 + 1) + 1),
-          currentQuestion: ""
         })
         this.pawnMove()
       }
@@ -163,31 +161,32 @@ class App extends Component {
     if (this.state.playerTurn === true) {
       if (typeof this.state.tiles[this.state.tiles.indexOf(this.state.pawn1) + this.state.dieValue] !== 'undefined') {
         this.setState({
-          pawn1: this.state.tiles[this.state.tiles.indexOf(this.state.pawn1) + this.state.dieValue]
+          pawn1: this.state.tiles[this.state.tiles.indexOf(this.state.pawn1) + this.state.dieValue],
         })
         setTimeout(() => this.newQuestion(this.state.pawn1), 1000)
       }
       else {
         this.setState({
-          pawn1: this.state.tiles[this.state.tiles.length - 1]
-        }
-        )
-        this.newQuestion(this.state.pawn1)
+          pawn1: this.state.tiles[this.state.tiles.length - 1],
+          currentQuestion: ""
+        })
+        setTimeout(() => this.newQuestion(this.state.pawn1), 1000)
       }
     }
     else {
       if (typeof this.state.tiles[this.state.tiles.indexOf(this.state.pawn2) + this.state.dieValue] !== 'undefined') {
         this.setState({
-          pawn2: this.state.tiles[this.state.tiles.indexOf(this.state.pawn2) + this.state.dieValue]
+          pawn2: this.state.tiles[this.state.tiles.indexOf(this.state.pawn2) + this.state.dieValue],
+          currentQuestion: ""
         })
         setTimeout(() => this.newQuestion(this.state.pawn2), 1000)
       }
       else {
         this.setState({
-          pawn2: this.state.tiles[this.state.tiles.length - 1]
-        }
-        )
-        this.newQuestion(this.state.pawn2)
+          pawn2: this.state.tiles[this.state.tiles.length - 1],
+          currentQuestion: ""
+        })
+        setTimeout(() => this.newQuestion(this.state.pawn2), 1000)
       }
     }
   }
