@@ -1,17 +1,17 @@
 
-function Timer({timer, counter}){
+function Timer({ timer, counter }) {
 
     const displayTimer = () => {
-        if (timer === true){
+        if (timer === true) {
             return counter
         }
     }
 
-    return(
+    return (
         <div id="timer-section">
             <p id="timer">
                 {displayTimer()}
-            </p> 
+            </p>
         </div>
     )
 }

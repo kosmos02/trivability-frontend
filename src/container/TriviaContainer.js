@@ -11,7 +11,9 @@ function TriviaContainer({currentQuestion, isCorrect, clickedAnswer, timer, answ
         if (currentQuestion !== ""){
             return(
                 <div id='question-container'>
+                    <p id="type-question" className={categoryColor()}>{currentQuestion.category}</p>
                     <p id="question">{currentQuestion.question}</p>
+                    
                     <div id="correct-container">
                         {renderIsCorrect()}
                     </div>
@@ -20,6 +22,21 @@ function TriviaContainer({currentQuestion, isCorrect, clickedAnswer, timer, answ
                     </div>
                 </div>
             )
+        }
+    }
+
+    const categoryColor = () => {
+        switch (currentQuestion.category){
+            case "Science: Computers":
+                return "red-category"
+            case "Science & Nature":
+                return "yellow-category"
+            case "Mythology":
+                return "blue-category"  
+            case "Animals":
+                return "green-category"   
+            default:
+                return null
         }
     }
 

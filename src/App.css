@@ -41,6 +41,7 @@ h1 {
 }
 
 #timer-section {
+    font-weight: bold;
     display: flex;
     justify-content: center;
 }
@@ -82,6 +83,26 @@ h1 {
     to {
         transform: rotateY(360deg)
     }
+}
+
+#type-question {
+    margin: 0px;
+}
+
+.red-category {
+    color: red;
+}
+
+.green-category {
+    color: green;
+}
+
+.yellow-category {
+    color: yellow;
+}
+
+.blue-category {
+    color: blue
 }
 
 #question-container {
@@ -190,7 +211,6 @@ h1 {
 .die:hover {
     animation: pop 3s ease;
 }
-
 
 @keyframes pop {
         0%   { transform: scale(1,1)      translateY(0); }
