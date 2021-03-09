@@ -19,6 +19,8 @@ import DieRoll from './audioclips/dice-roll.wav'
 import PlayerWin from './audioclips/player-win.mp3'
 import TimesUp from './audioclips/times-up.mp3'
 
+import { decodeHTMLEntities } from './app.ts'
+
 class App extends Component {
 
   state = {
