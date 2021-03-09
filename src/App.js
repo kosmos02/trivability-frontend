@@ -63,7 +63,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/tiles')
+    fetch('https://trivability.herokuapp.com/tiles')
       .then(response => response.json())
       .then(tiles => {
         this.setState({ tiles, pawn1: tiles[0], pawn2: tiles[0] })
